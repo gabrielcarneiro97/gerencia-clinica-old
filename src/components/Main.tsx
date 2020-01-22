@@ -2,6 +2,8 @@ import React from 'react';
 import { Layout } from 'antd';
 
 import Head from './Head';
+import Router from './Router';
+import SideMenu from './SideMenu';
 
 const {
   Header, Sider, Content, Footer,
@@ -15,7 +17,7 @@ export default function Main(): JSX.Element {
       </Header>
       <Layout>
         <Sider width={200} style={{ background: '#fff' }}>
-          <div>Teste</div>
+          <SideMenu />
         </Sider>
         <Layout>
           <Content
@@ -26,7 +28,7 @@ export default function Main(): JSX.Element {
               minHeight: window.innerHeight - 64 /* altura header */ - 69 /* altura footer */,
             }}
           >
-            <div>Teste</div>
+            <Router />
           </Content>
         </Layout>
       </Layout>
