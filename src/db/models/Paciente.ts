@@ -26,7 +26,10 @@ Paciente.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  cpf: new DataTypes.STRING(),
+  cpf: {
+    type: new DataTypes.STRING(),
+    unique: true,
+  },
   nome: new DataTypes.STRING(),
   sexo: new DataTypes.STRING(1),
   nascimento: new DataTypes.DATE(),

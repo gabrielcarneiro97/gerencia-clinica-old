@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "outDir": "public"
+    "target": "es6",
+    "outDir": "public",
+    "module": "CommonJS"
   },
   "include": [
     "electron"
