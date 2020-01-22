@@ -12,4 +12,6 @@ export async function dbInit(): Promise<boolean> {
   }
 }
 
-export function getDb(): void {}
+export function getDb(): void {
+  console.log('lul');
+}
