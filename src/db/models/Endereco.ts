@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../connect';
+import Paciente from './Paciente';
 
 export default class Endereco extends Model {
   public id!: number;
@@ -18,7 +19,7 @@ export default class Endereco extends Model {
 
 Endereco.init({
   id: {
-    type: new DataTypes.INTEGER.UNSIGNED(),
+    type: new DataTypes.INTEGER(),
     autoIncrement: true,
     primaryKey: true,
   },
@@ -27,7 +28,7 @@ Endereco.init({
   complemento: new DataTypes.STRING(),
   bairro: new DataTypes.STRING(),
   cidade: new DataTypes.STRING(),
-  estado: new DataTypes.STRING(),
+  estado: new DataTypes.STRING(2),
   pais: new DataTypes.STRING(),
   cep: new DataTypes.STRING(),
 }, {
@@ -35,3 +36,5 @@ Endereco.init({
   modelName: 'endereco',
   sequelize,
 });
+
+Endereco.hasMany(Paciente);

@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../connect';
-
 import Endereco from './Endereco';
 
 export default class Paciente extends Model {
@@ -13,11 +12,17 @@ export default class Paciente extends Model {
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  public async getEndereco(): Promise<Endereco | null> {
+    if (!this.enderecoId) return null;
+
+    return Endereco.findByPk(this.enderecoId);
+  }
 }
 
 Paciente.init({
   id: {
-    type: new DataTypes.INTEGER.UNSIGNED(),
+    type: new DataTypes.INTEGER(),
     autoIncrement: true,
     primaryKey: true,
   },
@@ -25,13 +30,6 @@ Paciente.init({
   nome: new DataTypes.STRING(),
   sexo: new DataTypes.STRING(1),
   nascimento: new DataTypes.DATE(),
-  enderecoId: {
-    type: new DataTypes.INTEGER.UNSIGNED(),
-    references: {
-      model: Endereco,
-      key: 'id',
-    },
-  },
 }, {
   tableName: 'pacientes',
   modelName: 'paciente',
