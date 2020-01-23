@@ -16,7 +16,7 @@ export default function Main(): JSX.Element {
         <Head />
       </Header>
       <Layout>
-        <Sider width={200} style={{ background: '#fff' }}>
+        <Sider width={280} style={{ background: '#fff' }}>
           <SideMenu />
         </Sider>
         <Layout>

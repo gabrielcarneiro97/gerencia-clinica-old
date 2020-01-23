@@ -16,7 +16,7 @@ export default function SideMenu(): JSX.Element {
       <Menu.Item key="/teste1">
         <Link to="/teste1">
           <Icon type="team" />
-          Gerenciar Pacientes
+          Pacientes
         </Link>
       </Menu.Item>
       <Menu.Item key="/teste2">

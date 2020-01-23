@@ -1,21 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import 'antd/dist/antd.css';
+import './misc/antd.min.css';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import store from './store/store';
+import { dbInit } from './db/db.service';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
-);
-
+dbInit().then(() => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root'),
+  );
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

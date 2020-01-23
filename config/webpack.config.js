@@ -1,4 +1,6 @@
 
+/* eslint-disable */
+
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -7,10 +9,7 @@ const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const safePostCssParser = require('postcss-safe-parser');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
@@ -20,6 +19,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const nodeExternals = require('webpack-node-externals');
 
 const postcssNormalize = require('postcss-normalize');
 const getClientEnvironment = require('./env');
@@ -197,66 +197,6 @@ module.exports = function (webpackEnv) {
       globalObject: 'this',
     },
     optimization: {
-      minimize: isEnvProduction,
-      minimizer: [
-        // This is only used in production mode
-        new TerserPlugin({
-          terserOptions: {
-            parse: {
-              // We want terser to parse ecma 8 code. However, we don't want it
-              // to apply any minification steps that turns valid ecma 5 code
-              // into invalid ecma 5 code. This is why the 'compress' and 'output'
-              // sections only apply transformations that are ecma 5 safe
-              // https://github.com/facebook/create-react-app/pull/4234
-              ecma: 8,
-            },
-            compress: {
-              ecma: 8,
-              warnings: false,
-              // Disabled because of an issue with Uglify breaking seemingly valid code:
-              // https://github.com/facebook/create-react-app/issues/2376
-              // Pending further investigation:
-              // https://github.com/mishoo/UglifyJS2/issues/2011
-              comparisons: false,
-              // Disabled because of an issue with Terser breaking valid code:
-              // https://github.com/facebook/create-react-app/issues/5250
-              // Pending further investigation:
-              // https://github.com/terser-js/terser/issues/120
-              inline: 2,
-            },
-            mangle: {
-              safari10: true,
-            },
-            // Added for profiling in devtools
-            keep_classnames: isEnvProductionProfile,
-            keep_fnames: isEnvProductionProfile,
-            output: {
-              ecma: 8,
-              comments: false,
-              // Turned on because emoji and regex is not minified properly using default
-              // https://github.com/facebook/create-react-app/issues/2488
-              ascii_only: true,
-            },
-          },
-          sourceMap: shouldUseSourceMap,
-        }),
-        // This is only used in production mode
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorOptions: {
-            parser: safePostCssParser,
-            map: shouldUseSourceMap
-              ? {
-                // `inline: false` forces the sourcemap to be output into a
-                // separate file
-                inline: false,
-                // `annotation: true` appends the sourceMappingURL to the end of
-                // the css file, helping the browser find the sourcemap
-                annotation: true,
-              }
-              : false,
-          },
-        }),
-      ],
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
@@ -308,7 +248,7 @@ module.exports = function (webpackEnv) {
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
         // please link the files into your node_modules/ and let module-resolution kick in.
         // Make sure your source files are compiled, as they will not be processed in any way.
-        new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+        new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson, './']),
       ],
     },
     resolveLoader: {
@@ -382,6 +322,7 @@ module.exports = function (webpackEnv) {
                       },
                     },
                   ],
+                  require.resolve('@babel/plugin-proposal-class-properties'),
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -665,7 +606,8 @@ module.exports = function (webpackEnv) {
     // our own hints via the FileSizeReporter
     performance: false,
     externals: [
-      { pg: { commonjs: 'pg' } },
+      nodeExternals(),
+      // { pg: { commonjs: 'pg' } },
     ],
   };
 };

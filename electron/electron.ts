@@ -11,6 +11,7 @@ function createApp(): void {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   });
 

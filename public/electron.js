@@ -11,6 +11,7 @@ function createApp() {
         show: false,
         webPreferences: {
             nodeIntegration: true,
+            webSecurity: false,
         },
     });
     mainWindow.maximize();

@@ -1,5 +1,4 @@
 import { Sequelize } from 'sequelize';
-import * as pg from 'pg';
 
 const sequelize = new Sequelize(
   'clinica', // db
@@ -7,7 +6,7 @@ const sequelize = new Sequelize(
   '123456', // senha
   {
     host: 'localhost',
-    dialectModule: pg,
+    dialect: 'postgres',
     logging: false,
   },
 );

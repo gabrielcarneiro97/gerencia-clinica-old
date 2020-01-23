@@ -6,7 +6,6 @@ const { Paragraph } = Typography;
 
 
 export default function Head(): JSX.Element {
-  dbInit();
   return (
     <Paragraph
       strong
