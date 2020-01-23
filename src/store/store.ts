@@ -26,6 +26,7 @@ function carregarPacienteSelecionadoHandler(state = initialState, action?: Actio
   if (!action) return state;
 
   const { paciente = null } = action;
+
   return {
     ...state,
     pacienteSelecionado: paciente,
@@ -37,7 +38,9 @@ const reducer: Reducer = (state: Store = initialState, action: Action): Store =>
     [CARREGAR_PACIENTE_SELECIONADO]: carregarPacienteSelecionadoHandler,
   };
 
-  return (handlers[action.type] || ((): Store => state))();
+  const newState = (handlers[action.type] || ((): Store => state))(state, action);
+
+  return newState;
 };
 
 export function carregarPacienteSelecionado(paciente: Paciente): Action {
@@ -47,4 +50,6 @@ export function carregarPacienteSelecionado(paciente: Paciente): Action {
   };
 }
 
-export default createStore(reducer);
+export default createStore(reducer,
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__
+  && (window as any).__REDUX_DEVTOOLS_EXTENSION__());

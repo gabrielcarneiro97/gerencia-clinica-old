@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStore } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Op } from 'sequelize';
 import { AutoComplete } from 'antd';
 import { SelectValue } from 'antd/lib/select';
@@ -8,13 +8,12 @@ import { DataSourceItemType } from 'antd/lib/auto-complete';
 import { models } from '../db/db.service';
 import PacienteClass from '../db/models/Paciente';
 
-import { Store, carregarPacienteSelecionado } from '../store/store';
+import { carregarPacienteSelecionado } from '../store/store';
 
 const { Paciente } = models;
 
 export default function PacienteBuscaForm(): JSX.Element {
-  const store = useStore<Store>();
-  const { dispatch } = store;
+  const dispatch = useDispatch();
 
   const [searchString, setSearchString] = useState();
   const [pacientesBusca, setPacientesBusca]: [PacienteClass[], Function] = useState([]);
