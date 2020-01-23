@@ -22,7 +22,6 @@ export default function Main(): JSX.Element {
         <Layout>
           <Content
             style={{
-              background: '#fff',
               padding: 24,
               margin: 0,
               minHeight: window.innerHeight - 64 /* altura header */ - 69 /* altura footer */,

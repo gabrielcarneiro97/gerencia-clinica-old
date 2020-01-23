@@ -6,6 +6,8 @@ export default class Paciente extends Model {
   public id!: number;
   public cpf!: string | null;
   public nome!: string | null;
+  public filiacao1!: string | null;
+  public filiacao2!: string | null;
   public sexo!: string | null;
   public nascimento!: Date | null;
   public enderecoId!: number | null;
@@ -31,6 +33,8 @@ Paciente.init({
     unique: true,
   },
   nome: new DataTypes.STRING(),
+  filiacao1: new DataTypes.STRING(),
+  filiacao2: new DataTypes.STRING(),
   sexo: new DataTypes.STRING(1),
   nascimento: new DataTypes.DATE(),
 }, {

@@ -17,7 +17,7 @@ function createApp() {
     mainWindow.maximize();
     mainWindow.show();
     if (isDev)
-        mainWindow.webContents.openDevTools({ mode: 'detach' });
+        mainWindow.webContents.openDevTools({ mode: 'right' });
     mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
     mainWindow.on('closed', () => {
         mainWindow = null;

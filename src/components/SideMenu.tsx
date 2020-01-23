@@ -13,8 +13,8 @@ export default function SideMenu(): JSX.Element {
       selectedKeys={[pathname.split('?')[0]]}
       style={{ height: '92%', borderRight: 0, backgroundColor: 'white' }}
     >
-      <Menu.Item key="/teste1">
-        <Link to="/teste1">
+      <Menu.Item key="/pacientes">
+        <Link to="/pacientes">
           <Icon type="team" />
           Pacientes
         </Link>
