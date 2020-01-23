@@ -37,4 +37,4 @@ Endereco.init({
   sequelize,
 });
 
-Endereco.hasMany(Paciente);
+Endereco.hasOne(Paciente);
