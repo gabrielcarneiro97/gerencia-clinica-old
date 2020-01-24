@@ -11,7 +11,7 @@ import { FormComponentProps } from 'antd/lib/form';
 
 import { Store } from '../store/store';
 import PacienteClass from '../db/models/Paciente';
-import { carregarInfosPessoais, PacienteStore } from '../store/paciente';
+import { carregarInfosPessoais, PacienteStore, mudou } from '../store/paciente';
 
 const { Item } = Form;
 const { Option } = Select;
@@ -68,6 +68,7 @@ export default connect(
   ({ paciente }: Store) => ({ paciente }),
   (dispatch: any) => ({
     atualizaInfosPessoais(paciente: PacienteClass): void {
+      dispatch(mudou());
       dispatch(carregarInfosPessoais(paciente));
     },
   }),
