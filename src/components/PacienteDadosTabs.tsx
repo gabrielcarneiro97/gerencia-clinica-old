@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 
 import PacienteInfosPessoaisForm from './PacienteInfosPessoaisForm';
+import PacienteEnderecoForm from './PacienteEnderecoForm';
 
 const { TabPane } = Tabs;
 
@@ -23,7 +24,7 @@ export default function PacienteDadosTabs(): JSX.Element {
         key="2"
         tab="Endereço"
       >
-        Endereço
+        <PacienteEnderecoForm />
       </TabPane>
       <TabPane
         key="3"
