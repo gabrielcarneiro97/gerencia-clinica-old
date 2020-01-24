@@ -4,7 +4,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Form, Input,
+  Form,
+  Input,
+  Col,
+  Row,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
@@ -21,53 +24,70 @@ function PacienteEnderecoForm(props: FormComponentProps): JSX.Element {
   const { form } = props;
   const { getFieldDecorator } = form;
 
-  const itemLayout = (label = 4, field?: number): object => ({
-    labelCol: { span: label },
-    wrapperCol: field ? { span: field } : null,
-  });
-
   return (
-    <Form layout="horizontal">
-      <Item label="Logradouro" {...itemLayout(4, 8)}>
-        {getFieldDecorator('logradouro')(
-          <Input placeholder="Logradouro" />,
-        )}
-      </Item>
-      <Item label="Número" {...itemLayout(4, 4)}>
-        {getFieldDecorator('numero')(
-          <Input placeholder="Número" />,
-        )}
-      </Item>
-      <Item label="Complemento" {...itemLayout(4, 4)}>
-        {getFieldDecorator('complemento')(
-          <Input placeholder="Complemento" />,
-        )}
-      </Item>
-      <Item label="Bairro" {...itemLayout(4, 8)}>
-        {getFieldDecorator('bairro')(
-          <Input placeholder="Bairro" />,
-        )}
-      </Item>
-      <Item label="Cidade" {...itemLayout(4, 8)}>
-        {getFieldDecorator('cidade')(
-          <Input placeholder="Cidade" />,
-        )}
-      </Item>
-      <Item label="Estado" {...itemLayout(4, 8)}>
-        {getFieldDecorator('estado')(
-          <EstadoSelect />,
-        )}
-      </Item>
-      <Item label="País" {...itemLayout(4, 8)}>
-        {getFieldDecorator('pais')(
-          <Input placeholder="País" />,
-        )}
-      </Item>
-      <Item label="CEP" {...itemLayout(4, 4)}>
-        {getFieldDecorator('cep')(
-          <Input placeholder="CEP" />,
-        )}
-      </Item>
+    <Form>
+      <Row gutter={8}>
+        <Col span={6}>
+          <Item label="CEP">
+            {getFieldDecorator('cep')(
+              <Input placeholder="CEP" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={18}>
+          <Item label="Logradouro">
+            {getFieldDecorator('logradouro')(
+              <Input placeholder="Logradouro" />,
+            )}
+          </Item>
+        </Col>
+      </Row>
+      <Row gutter={8}>
+        <Col span={4}>
+          <Item label="Número">
+            {getFieldDecorator('numero')(
+              <Input placeholder="Número" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={4}>
+          <Item label="Complemento">
+            {getFieldDecorator('complemento')(
+              <Input placeholder="Complemento" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={16}>
+          <Item label="Bairro">
+            {getFieldDecorator('bairro')(
+              <Input placeholder="Bairro" />,
+            )}
+          </Item>
+        </Col>
+      </Row>
+      <Row gutter={8}>
+        <Col span={8}>
+          <Item label="Cidade">
+            {getFieldDecorator('cidade')(
+              <Input placeholder="Cidade" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={8}>
+          <Item label="Estado">
+            {getFieldDecorator('estado')(
+              <EstadoSelect />,
+            )}
+          </Item>
+        </Col>
+        <Col span={8}>
+          <Item label="País">
+            {getFieldDecorator('pais')(
+              <Input placeholder="País" />,
+            )}
+          </Item>
+        </Col>
+      </Row>
     </Form>
   );
 }

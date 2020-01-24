@@ -90,7 +90,10 @@ export default connect(
     const fieldName = Object.keys(changedFields)[0];
     if (fieldName === 'nascimento') {
       infosPessoais.setDataValue(
-        fieldName as any, (changedFields[fieldName].value as Moment).toDate(),
+        fieldName as any,
+        changedFields[fieldName].value
+          ? (changedFields[fieldName].value as Moment).toDate()
+          : null,
       );
     } else {
       infosPessoais.setDataValue(fieldName as any, changedFields[fieldName].value);
@@ -102,13 +105,15 @@ export default connect(
 
     const { infosPessoais } = paciente;
 
-    const createField = (fieldName: string) => ({
-      [fieldName]: Form.createFormField({
-        value: fieldName !== 'nascimento'
-          ? infosPessoais?.getDataValue(fieldName as any)
-          : moment(infosPessoais?.getDataValue(fieldName as any) || ''),
-      }),
-    });
+    const createField = (fieldName: string) => {
+      const field = infosPessoais?.getDataValue(fieldName as any);
+
+      return {
+        [fieldName]: Form.createFormField({
+          value: fieldName !== 'nascimento' ? field : field && moment(field),
+        }),
+      };
+    };
 
     return {
       ...createField('nome'),
