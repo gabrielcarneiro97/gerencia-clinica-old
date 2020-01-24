@@ -1,12 +1,15 @@
+import sequelize from './connect';
+
 import Endereco from './models/Endereco';
 import Paciente from './models/Paciente';
-import sequelize from './connect';
+import Contato from './models/Contato';
 
 export async function dbInit(): Promise<boolean> {
   try {
     await sequelize.authenticate();
-    await Endereco.sync({ alter: true });
     await Paciente.sync({ alter: true });
+    await Contato.sync({ alter: true });
+    await Endereco.sync({ alter: true });
     return true;
   } catch (err) {
     console.error(err);

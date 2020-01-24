@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../connect';
-import Paciente from './Paciente';
 
 export default class Endereco extends Model {
   public id!: number;
@@ -36,5 +35,3 @@ Endereco.init({
   modelName: 'endereco',
   sequelize,
 });
-
-Endereco.hasOne(Paciente);

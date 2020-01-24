@@ -16,7 +16,7 @@ import { carregarInfosPessoais, PacienteStore, mudou } from '../store/paciente';
 const { Item } = Form;
 const { Option } = Select;
 
-function PacienteDadosForm(props: FormComponentProps): JSX.Element {
+function PacienteInfosPessoaisForm(props: FormComponentProps): JSX.Element {
   const { form } = props;
   const { getFieldDecorator } = form;
 
@@ -73,7 +73,7 @@ export default connect(
     },
   }),
 )(Form.create({
-  name: 'pacienteDadosForm',
+  name: 'pacienteInfosPessoaisForm',
   onFieldsChange(props: any, changedFields: any) {
     const {
       atualizaInfosPessoais,
@@ -119,4 +119,4 @@ export default connect(
       ...createField('filiacao2'),
     };
   },
-})(PacienteDadosForm));
+})(PacienteInfosPessoaisForm));

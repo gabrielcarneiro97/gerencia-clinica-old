@@ -34,10 +34,10 @@ const estados = [
   { nome: 'Tocantins', sigla: 'TO' },
 ];
 
-export default function EstadoSelect(props: any): JSX.Element {
-  return (
-    <Select {...props}>
-      {(() => estados.map((e) => <Option value={e.sigla} key={e.sigla}>{e.nome}</Option>))()}
-    </Select>
-  );
-}
+const EstadoSelect = React.forwardRef((props: any, ref): JSX.Element => (
+  <Select ref={ref} {...props}>
+    {(() => estados.map((e) => <Option value={e.sigla} key={e.sigla}>{e.nome}</Option>))()}
+  </Select>
+));
+
+export default EstadoSelect;

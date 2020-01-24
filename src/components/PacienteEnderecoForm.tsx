@@ -3,7 +3,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import moment, { Moment } from 'moment';
 import {
   Form, Input,
 } from 'antd';
@@ -18,7 +17,7 @@ import EstadoSelect from './EstadoSelect';
 
 const { Item } = Form;
 
-function PacienteDadosForm(props: FormComponentProps): JSX.Element {
+function PacienteEnderecoForm(props: FormComponentProps): JSX.Element {
   const { form } = props;
   const { getFieldDecorator } = form;
 
@@ -82,7 +81,7 @@ export default connect(
     },
   }),
 )(Form.create({
-  name: 'pacienteDadosForm',
+  name: 'pacienteEnderecoForm',
   onFieldsChange(props: any, changedFields: any) {
     const {
       atualizaEndereco,
@@ -123,4 +122,4 @@ export default connect(
       ...createField('cep'),
     };
   },
-})(PacienteDadosForm));
+})(PacienteEnderecoForm));

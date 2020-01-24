@@ -3,6 +3,7 @@ import { Tabs } from 'antd';
 
 import PacienteInfosPessoaisForm from './PacienteInfosPessoaisForm';
 import PacienteEnderecoForm from './PacienteEnderecoForm';
+import PacienteContatoForm from './PacienteContatoForm';
 
 const { TabPane } = Tabs;
 
@@ -30,7 +31,7 @@ export default function PacienteDadosTabs(): JSX.Element {
         key="3"
         tab="Contato"
       >
-        Contato
+        <PacienteContatoForm />
       </TabPane>
     </Tabs>
   );

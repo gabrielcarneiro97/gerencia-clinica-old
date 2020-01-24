@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../connect';
+
 import Endereco from './Endereco';
+import Contato from './Contato';
 
 export default class Paciente extends Model {
   public id!: number;
@@ -11,15 +13,23 @@ export default class Paciente extends Model {
   public sexo!: string | null;
   public nascimento!: Date | null;
   public enderecoId!: number | null;
+  public contatoId!: number | null;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public async getEndereco(): Promise<Endereco | null> {
+  public async getEndereco(): Promise<Endereco> {
     const enderecoId = this.getDataValue('enderecoId');
-    if (!enderecoId) return null;
+    if (!enderecoId) return Endereco.build();
 
-    return Endereco.findByPk(enderecoId as number);
+    return (await Endereco.findByPk(enderecoId as number)) || Endereco.build();
+  }
+
+  public async getContato(): Promise<Contato> {
+    const contatoId = this.getDataValue('contatoId');
+    if (!contatoId) return Contato.build();
+
+    return (await Contato.findByPk(contatoId as number)) || Contato.build();
   }
 }
 
@@ -38,6 +48,20 @@ Paciente.init({
   filiacao2: new DataTypes.STRING(),
   sexo: new DataTypes.STRING(1),
   nascimento: new DataTypes.DATE(),
+  enderecoId: {
+    type: new DataTypes.INTEGER(),
+    references: {
+      model: Endereco,
+      key: 'id',
+    },
+  },
+  contatoId: {
+    type: new DataTypes.INTEGER(),
+    references: {
+      model: Contato,
+      key: 'id',
+    },
+  },
 }, {
   tableName: 'pacientes',
   modelName: 'paciente',
