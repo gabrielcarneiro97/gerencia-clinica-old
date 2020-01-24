@@ -16,9 +16,10 @@ export default class Paciente extends Model {
   public readonly updatedAt!: Date;
 
   public async getEndereco(): Promise<Endereco | null> {
-    if (!this.enderecoId) return null;
+    const enderecoId = this.getDataValue('enderecoId');
+    if (!enderecoId) return null;
 
-    return Endereco.findByPk(this.enderecoId);
+    return Endereco.findByPk(enderecoId as number);
   }
 }
 

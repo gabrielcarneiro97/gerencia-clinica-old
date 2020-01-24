@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Tabs } from 'antd';
 
-import PacienteDadosForm from './PacienteDadosForm';
+import PacienteDadosTabs from './PacienteDadosTabs';
 
 import { Store } from '../store/store';
 import Paciente from '../db/models/Paciente';
@@ -11,22 +11,22 @@ import Paciente from '../db/models/Paciente';
 const { TabPane } = Tabs;
 
 export default function PacienteTabs(): JSX.Element {
-  const pacienteSelecionado = useSelector<Store, Paciente | null>(
-    (state) => state.pacienteSelecionado,
+  const infosPessoais = useSelector<Store, Paciente | null>(
+    (state) => state.paciente.infosPessoais,
   );
 
-  const pacienteNoBanco = pacienteSelecionado && pacienteSelecionado.getDataValue('id');
+  const pacienteNoBanco = infosPessoais && infosPessoais.getDataValue('id');
 
   return (
     <Tabs defaultActiveKey="1">
       <TabPane
         key="1"
-        tab="Informações Pessoais"
-        disabled={!pacienteSelecionado}
+        tab="Dados"
+        disabled={!infosPessoais}
       >
         {
-          pacienteSelecionado
-          && <PacienteDadosForm />
+          infosPessoais
+          && <PacienteDadosTabs />
         }
       </TabPane>
       <TabPane

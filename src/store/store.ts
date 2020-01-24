@@ -1,54 +1,14 @@
-import { createStore, Reducer } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
-import Paciente from '../db/models/Paciente';
+import paciente, { PacienteStore } from './paciente';
 
 export type Store = {
-  pacientesBusca: Paciente[];
-  pacienteSelecionado: Paciente | null;
-};
-type Action = {
-  type: string;
-  pacientes?: Paciente[];
-  paciente?: Paciente;
-};
-
-type Handlers = { [key: string]: (state?: Store, action?: Action) => Store };
-
-const initialState: Store = {
-  pacientesBusca: [],
-  pacienteSelecionado: null,
-};
-
-const CARREGAR_PACIENTE_SELECIONADO = 'CARREGAR_PACIENTE_SELECIONADO';
-
-
-function carregarPacienteSelecionadoHandler(state = initialState, action?: Action): Store {
-  if (!action) return state;
-
-  const { paciente = null } = action;
-
-  return {
-    ...state,
-    pacienteSelecionado: paciente,
-  };
+  paciente: PacienteStore;
 }
 
-const reducer: Reducer = (state: Store = initialState, action: Action): Store => {
-  const handlers: Handlers = {
-    [CARREGAR_PACIENTE_SELECIONADO]: carregarPacienteSelecionadoHandler,
-  };
-
-  const newState = (handlers[action.type] || ((): Store => state))(state, action);
-
-  return newState;
-};
-
-export function carregarPacienteSelecionado(paciente: Paciente): Action {
-  return {
-    type: CARREGAR_PACIENTE_SELECIONADO,
-    paciente,
-  };
-}
+const reducer = combineReducers({
+  paciente,
+});
 
 export default createStore(reducer,
   (window as any).__REDUX_DEVTOOLS_EXTENSION__

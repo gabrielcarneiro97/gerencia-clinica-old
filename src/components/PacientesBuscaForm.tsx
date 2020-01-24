@@ -8,7 +8,7 @@ import { DataSourceItemType } from 'antd/lib/auto-complete';
 import { models } from '../db/db.service';
 import PacienteClass from '../db/models/Paciente';
 
-import { carregarPacienteSelecionado } from '../store/store';
+import { carregarInfosPessoais, carregarEndereco } from '../store/paciente';
 
 const { Paciente } = models;
 
@@ -41,12 +41,17 @@ export default function PacienteBuscaForm(): JSX.Element {
     }
   };
 
-  const handleSelect = (pacienteId: SelectValue): void => {
+  const handleSelect = async (pacienteId: SelectValue): Promise<void> => {
     const pacienteSelecionado = pacientesBusca.find(
       (p) => p.getDataValue('id') === parseInt(pacienteId as string, 10),
     );
 
-    if (pacienteSelecionado) dispatch(carregarPacienteSelecionado(pacienteSelecionado));
+    if (pacienteSelecionado) {
+      const endereco = await pacienteSelecionado.getEndereco();
+
+      dispatch(carregarInfosPessoais(pacienteSelecionado));
+      if (endereco) dispatch(carregarEndereco(endereco));
+    }
   };
 
   return (
