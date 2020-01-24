@@ -4,7 +4,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Form, Input,
+  Form,
+  Input,
+  Row,
+  Col,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
@@ -18,28 +21,32 @@ function PacienteContatosForm(props: FormComponentProps): JSX.Element {
   const { form } = props;
   const { getFieldDecorator } = form;
 
-  const itemLayout = (label = 4, field?: number): object => ({
-    labelCol: { span: label },
-    wrapperCol: field ? { span: field } : null,
-  });
 
   return (
-    <Form layout="horizontal">
-      <Item label="Email" {...itemLayout(4, 8)}>
-        {getFieldDecorator('email')(
-          <Input placeholder="Email" />,
-        )}
-      </Item>
-      <Item label="Telefone 1" {...itemLayout(4, 4)}>
-        {getFieldDecorator('telefone1')(
-          <Input placeholder="Telefone 1" />,
-        )}
-      </Item>
-      <Item label="Telefone 2" {...itemLayout(4, 4)}>
-        {getFieldDecorator('telefone2')(
-          <Input placeholder="Telefone 2" />,
-        )}
-      </Item>
+    <Form>
+      <Row gutter={8}>
+        <Col span={12}>
+          <Item label="Email">
+            {getFieldDecorator('email')(
+              <Input placeholder="Email" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={6}>
+          <Item label="Telefone 1">
+            {getFieldDecorator('telefone1')(
+              <Input placeholder="Telefone 1" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={6}>
+          <Item label="Telefone 2">
+            {getFieldDecorator('telefone2')(
+              <Input placeholder="Telefone 2" />,
+            )}
+          </Item>
+        </Col>
+      </Row>
     </Form>
   );
 }

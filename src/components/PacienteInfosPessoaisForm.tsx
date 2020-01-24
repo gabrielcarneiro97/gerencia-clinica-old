@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 
 import moment, { Moment } from 'moment';
 import {
-  Form, Input, DatePicker, Select,
+  Form,
+  Input,
+  DatePicker,
+  Select,
+  Row,
+  Col,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
@@ -20,46 +25,57 @@ function PacienteInfosPessoaisForm(props: FormComponentProps): JSX.Element {
   const { form } = props;
   const { getFieldDecorator } = form;
 
-  const itemLayout = (label = 4, field?: number): object => ({
-    labelCol: { span: label },
-    wrapperCol: field ? { span: field } : null,
-  });
-
   return (
-    <Form layout="horizontal">
-      <Item label="Nome" {...itemLayout(4, 8)}>
-        {getFieldDecorator('nome')(
-          <Input placeholder="Nome" />,
-        )}
-      </Item>
-      <Item label="CPF" {...itemLayout(4, 4)}>
-        {getFieldDecorator('cpf')(
-          <Input placeholder="CPF" />,
-        )}
-      </Item>
-      <Item label="Nascimento" {...itemLayout(4, 4)}>
-        {getFieldDecorator('nascimento')(
-          <DatePicker format="DD/MM/YYYY" />,
-        )}
-      </Item>
-      <Item label="Sexo" {...itemLayout(4, 4)}>
-        {getFieldDecorator('sexo')(
-          <Select>
-            <Option value="F">Feminino</Option>
-            <Option value="M">Masculino</Option>
-          </Select>,
-        )}
-      </Item>
-      <Item label="Nome Mãe" {...itemLayout(4, 8)}>
-        {getFieldDecorator('filiacao1')(
-          <Input placeholder="Nome Mãe" />,
-        )}
-      </Item>
-      <Item label="Nome Pai" {...itemLayout(4, 8)}>
-        {getFieldDecorator('filiacao2')(
-          <Input placeholder="Nome Pai" />,
-        )}
-      </Item>
+    <Form>
+      <Row gutter={8}>
+        <Col span={12}>
+          <Item label="Nome">
+            {getFieldDecorator('nome')(
+              <Input placeholder="Nome" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={4}>
+          <Item label="CPF">
+            {getFieldDecorator('cpf')(
+              <Input placeholder="CPF" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={4}>
+          <Item label="Nascimento">
+            {getFieldDecorator('nascimento')(
+              <DatePicker format="DD/MM/YYYY" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={4}>
+          <Item label="Sexo">
+            {getFieldDecorator('sexo')(
+              <Select>
+                <Option value="F">Feminino</Option>
+                <Option value="M">Masculino</Option>
+              </Select>,
+            )}
+          </Item>
+        </Col>
+      </Row>
+      <Row gutter={8}>
+        <Col span={12}>
+          <Item label="Nome da Mãe">
+            {getFieldDecorator('filiacao1')(
+              <Input placeholder="Nome da Mãe" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={12}>
+          <Item label="Nome do Pai">
+            {getFieldDecorator('filiacao2')(
+              <Input placeholder="Nome do Pai" />,
+            )}
+          </Item>
+        </Col>
+      </Row>
     </Form>
   );
 }

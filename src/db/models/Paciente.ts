@@ -31,6 +31,22 @@ export default class Paciente extends Model {
 
     return (await Contato.findByPk(contatoId as number)) || Contato.build();
   }
+
+  public async saveAll(endereco?: Endereco | null, contato?: Contato | null): Promise<void> {
+    if (endereco) {
+      await endereco.save();
+      const enderecoId = endereco.getDataValue('id');
+      this.setDataValue('enderecoId', enderecoId);
+    }
+
+    if (contato) {
+      await contato.save();
+      const contatoId = contato.getDataValue('id');
+      this.setDataValue('contatoId', contatoId);
+    }
+
+    await this.save();
+  }
 }
 
 Paciente.init({

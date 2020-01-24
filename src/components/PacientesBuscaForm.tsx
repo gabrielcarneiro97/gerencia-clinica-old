@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Op } from 'sequelize';
-import { AutoComplete, Button, Col } from 'antd';
+import {
+  AutoComplete,
+  Button,
+  Col,
+  Popover,
+} from 'antd';
 import { SelectValue } from 'antd/lib/select';
 import { DataSourceItemType } from 'antd/lib/auto-complete';
+
+import { Op } from 'sequelize';
 
 import { models } from '../db/db.service';
 import PacienteClass from '../db/models/Paciente';
@@ -87,7 +93,7 @@ export default function PacienteBuscaForm(): JSX.Element {
 
   return (
     <>
-      <Col span={20}>
+      <Col span={22}>
         <AutoComplete
           dataSource={pacientesNomes}
           value={searchString}
@@ -97,10 +103,13 @@ export default function PacienteBuscaForm(): JSX.Element {
           style={{ width: '100%' }}
         />
       </Col>
-      <Col span={4}>
-        <Button onClick={handleNovo}>
-        Cadastrar Novo
-        </Button>
+      <Col span={2}>
+        <Popover
+          content="Cadastrar Novo Paciente"
+          placement="bottomRight"
+        >
+          <Button onClick={handleNovo} type="primary" shape="circle" icon="plus" />
+        </Popover>
       </Col>
     </>
   );
