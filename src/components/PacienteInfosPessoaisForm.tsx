@@ -30,7 +30,13 @@ function PacienteInfosPessoaisForm(props: FormComponentProps): JSX.Element {
       <Row gutter={8}>
         <Col span={12}>
           <Item label="Nome">
-            {getFieldDecorator('nome')(
+            {getFieldDecorator('nome', {
+              rules: [
+                {
+                  required: true,
+                },
+              ],
+            })(
               <Input placeholder="Nome" />,
             )}
           </Item>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 
 import { Store } from '../store/store';
 
@@ -8,19 +8,37 @@ import { PacienteStore, persitido } from '../store/paciente';
 
 export default function PacienteSaveButton(): JSX.Element {
   const [loading, setLoading] = useState(false);
+  const [faltaDados, setFaltaDados] = useState(true);
   const dispatch = useDispatch();
   const pacienteStore: PacienteStore = useSelector<Store, PacienteStore>(
     (store) => store.paciente,
   );
 
-  const { diferenteDoDb } = pacienteStore;
+  const { diferenteDoDb, infosPessoais } = pacienteStore;
+
+  const nome = infosPessoais?.getDataValue('nome');
+
+  useEffect(() => {
+    if (!nome) {
+      setFaltaDados(true);
+      return;
+    }
+
+    setFaltaDados(false);
+  }, [nome]);
 
   const handleClick = async (): Promise<void> => {
-    const { infosPessoais, endereco, contato } = pacienteStore;
+    const { endereco, contato } = pacienteStore;
     setLoading(true);
     if (infosPessoais) {
-      await infosPessoais.saveAll(endereco, contato);
-      dispatch(persitido());
+      try {
+        await infosPessoais.saveAll(endereco, contato);
+        dispatch(persitido());
+        message.success('Salvo!', 1);
+      } catch (error) {
+        console.error(error);
+        message.error('CPF já cadastrado!', 1);
+      }
     }
     setLoading(false);
   };
@@ -29,7 +47,7 @@ export default function PacienteSaveButton(): JSX.Element {
     <Button
       type="primary"
       onClick={handleClick}
-      disabled={!diferenteDoDb || loading}
+      disabled={!diferenteDoDb || loading || faltaDados}
       loading={loading}
     >
       Salvar

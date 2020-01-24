@@ -3,6 +3,7 @@ import { Reducer } from 'redux';
 import Paciente from '../db/models/Paciente';
 import Endereco from '../db/models/Endereco';
 import Contato from '../db/models/Contato';
+import Consulta from '../db/models/Consulta';
 
 type Handlers = { [key: string]: (state?: PacienteStore, action?: Action) => PacienteStore };
 
