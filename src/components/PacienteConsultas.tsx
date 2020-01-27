@@ -11,6 +11,7 @@ import ConsultaClass from '../db/models/Consulta';
 import { Store } from '../store/store';
 
 import { PacienteStore, carregarConsultas } from '../store/paciente';
+import ConsultaModal from './ConsultaModal';
 
 const { Consulta } = models;
 
@@ -31,7 +32,7 @@ export default function PacienteConsultas(): JSX.Element {
         },
       }).then((consultasDb) => dispatch(carregarConsultas(consultasDb)));
     }
-  }, []);
+  }, [pacienteId]);
 
   const columns = [
     {
@@ -50,9 +51,25 @@ export default function PacienteConsultas(): JSX.Element {
       dataIndex: 'responsavel',
       key: 'responsavel',
     },
+    {
+      title: '',
+      dataIndex: 'action',
+      key: 'action',
+      align: 'center' as 'center',
+      render: (v: number): JSX.Element => <ConsultaModal id={v} />,
+    },
   ];
 
-  const dataSource = temConsultas ? (consultas as ConsultaClass[]).map((c) => c.toJSON()) : [];
+  const dataSource = temConsultas ? (consultas as ConsultaClass[]).map(
+    (c) => {
+      const consultaId = c.getDataValue('id');
+
+      return {
+        ...c.toJSON(),
+        action: consultaId,
+      };
+    },
+  ) : [];
 
   console.log(dataSource);
 

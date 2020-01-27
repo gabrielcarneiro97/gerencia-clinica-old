@@ -1,13 +1,16 @@
 import { createStore, combineReducers } from 'redux';
 
 import paciente, { PacienteStore } from './paciente';
+import consulta, { ConsultaStore } from './consulta';
 
 export type Store = {
   paciente: PacienteStore;
+  consulta: ConsultaStore;
 }
 
 const reducer = combineReducers({
   paciente,
+  consulta,
 });
 
 export default createStore(reducer,
