@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Tabs } from 'antd';
 
@@ -16,10 +16,16 @@ export default function PacienteTabs(): JSX.Element {
     (state) => state.paciente.infosPessoais,
   );
 
+  const [activeTab, setActiveTab] = useState('1');
+
   const pacienteNoBanco = infosPessoais && infosPessoais.getDataValue('id');
 
+  useEffect(() => {
+    if (!pacienteNoBanco) setActiveTab('1');
+  }, [pacienteNoBanco]);
+
   return (
-    <Tabs defaultActiveKey="1">
+    <Tabs activeKey={activeTab} onTabClick={setActiveTab}>
       <TabPane
         key="1"
         tab="Dados"

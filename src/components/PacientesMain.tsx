@@ -7,7 +7,7 @@ import PacienteTabs from './PacienteTabs';
 export default function PacientesMain(): JSX.Element {
   return (
     <Layout>
-      <Row gutter={8}>
+      <Row gutter={8} type="flex" justify="space-around" align="middle">
         <PacienteBuscaForm />
       </Row>
       <Row>

@@ -5,6 +5,7 @@ import {
   Button,
   Col,
   Popover,
+  Icon,
 } from 'antd';
 import { SelectValue } from 'antd/lib/select';
 import { DataSourceItemType } from 'antd/lib/auto-complete';
@@ -93,7 +94,7 @@ export default function PacienteBuscaForm(): JSX.Element {
 
   return (
     <>
-      <Col span={22}>
+      <Col span={23}>
         <AutoComplete
           dataSource={pacientesNomes}
           value={searchString}
@@ -103,13 +104,24 @@ export default function PacienteBuscaForm(): JSX.Element {
           style={{ width: '100%' }}
         />
       </Col>
-      <Col span={2}>
-        <Popover
-          content="Cadastrar Novo Paciente"
-          placement="bottomRight"
+      <Col span={1}>
+        <div
+          style={{ marginBottom: '3px' }}
         >
-          <Button onClick={handleNovo} type="primary" shape="circle" icon="plus" />
-        </Popover>
+          <Popover
+            content="Cadastrar Novo Paciente"
+            placement="bottomRight"
+          >
+            <Button
+              onClick={handleNovo}
+              type="link"
+              shape="circle"
+              style={{ fontSize: '25px' }}
+            >
+              <Icon type="plus-circle" theme="filled" />
+            </Button>
+          </Popover>
+        </div>
       </Col>
     </>
   );

@@ -38,7 +38,7 @@ export default function PacienteConsultas(): JSX.Element {
       title: 'Data',
       dataIndex: 'data',
       key: 'data',
-      render: (v: Date) => moment(v).format('DD/MM/YYYY'),
+      render: (v: Date): string => moment(v).format('DD/MM/YYYY'),
     },
     {
       title: 'Observações',
