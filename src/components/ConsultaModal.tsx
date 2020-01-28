@@ -21,10 +21,11 @@ const { Consulta, ConsultaProcedimento } = models;
 type propTypes = {
   id: number;
   buttonSize?: string;
+  emitter?: string;
 }
 
 export default function ConsultaModal(props: propTypes): JSX.Element {
-  const { buttonSize = '20px', id } = props;
+  const { buttonSize = '20px', id, emitter } = props;
 
   const dispatch = useDispatch();
 
@@ -51,7 +52,7 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
   const footer = (
     <Row type="flex" justify="end">
       <Col>
-        <ConsultaModalSaveButton onEnd={hideModal} />
+        <ConsultaModalSaveButton onEnd={hideModal} emitter={emitter} />
       </Col>
     </Row>
   );
@@ -64,15 +65,20 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
         style={{ fontSize: buttonSize }}
         onClick={showModal}
       >
-        <Icon type="info-circle" theme="filled" />
+        <Icon type="info-circle" />
       </Button>
       <Modal
-        title="Consulta"
+        title={(
+          <div style={{ fontSize: 'large' }}>
+            Consulta
+          </div>
+        )}
         width={700}
         footer={footer}
         visible={visible}
         onCancel={hideModal}
         destroyOnClose
+        centered
       >
         <ConsultaModalForm />
         <ConsultaModalProcedimentosTable />

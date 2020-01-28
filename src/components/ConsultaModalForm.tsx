@@ -31,7 +31,10 @@ function ConsultaModalForm(props: FormComponentProps): JSX.Element {
         <Col span={8}>
           <Item label="Data">
             {getFieldDecorator('data')(
-              <DatePicker format="DD/MM/YYYY" />,
+              <DatePicker
+                showTime
+                format="DD/MM/YYYY HH:mm"
+              />,
             )}
           </Item>
         </Col>

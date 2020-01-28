@@ -40,8 +40,8 @@ const CARREGAR_CONSULTAS = 'CARREGAR_CONSULTAS';
 const ADICIONAR_CONSULTA = 'ADICIONAR_CONSULTA';
 const MODIFICAR_CONSULTA = 'MODIFICAR_CONSULTA';
 const REMOVER_CONSULTA = 'REMOVER_CONSULTA';
-const MUDOU = 'MUDOU';
-const PERSISTIDO = 'PERSISITIDO';
+const MUDOU_PACIENTE = 'MUDOU_PACIENTE';
+const PERSISTIDO_PACIENTE = 'PERSISTIDO_PACIENTE';
 const LIMPAR_PACIENTE = 'LIMPAR_PACIENTE';
 
 function carregarInfosPessoaisHandler(state = initialState, action?: Action): PacienteStore {
@@ -170,8 +170,8 @@ const reducer: Reducer = (state: PacienteStore = initialState, action: Action): 
     [ADICIONAR_CONSULTA]: adicionarConsultaHandler,
     [MODIFICAR_CONSULTA]: modificarConsultaHandler,
     [REMOVER_CONSULTA]: removerConsultaHandler,
-    [MUDOU]: mudouHandler,
-    [PERSISTIDO]: persistidoHandler,
+    [MUDOU_PACIENTE]: mudouHandler,
+    [PERSISTIDO_PACIENTE]: persistidoHandler,
     [LIMPAR_PACIENTE]: limparPacienteHandler,
   };
 
@@ -236,13 +236,13 @@ export function removerConsulta(consultaIndex: number): Action {
 
 export function mudou(): Action {
   return {
-    type: MUDOU,
+    type: MUDOU_PACIENTE,
   };
 }
 
 export function persitido(): Action {
   return {
-    type: PERSISTIDO,
+    type: PERSISTIDO_PACIENTE,
   };
 }
 

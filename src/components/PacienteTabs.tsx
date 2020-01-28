@@ -6,7 +6,7 @@ import PacienteDadosTabs from './PacienteDadosTabs';
 
 import { Store } from '../store/store';
 import Paciente from '../db/models/Paciente';
-import PacienteConsultas from './PacienteConsultas';
+import PacienteConsultasTable from './PacienteConsultasTable';
 
 
 const { TabPane } = Tabs;
@@ -41,7 +41,7 @@ export default function PacienteTabs(): JSX.Element {
         tab="Consultas"
         disabled={!pacienteNoBanco}
       >
-        <PacienteConsultas />
+        <PacienteConsultasTable />
       </TabPane>
     </Tabs>
   );

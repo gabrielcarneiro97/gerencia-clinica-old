@@ -12,10 +12,8 @@ import {
 
 import { Store } from '../store/store';
 import {
-  modificarProcedimento, mudou, removerProcedimento, adicionarProcedimento,
+  modificarProcedimento, mudou, removerProcedimento, adicionarProcedimento, ConsultaStore,
 } from '../store/consulta';
-
-import ConsultaProcedimentoClass from '../db/models/ConsultaProcedimento';
 
 import { models } from '../db/db.service';
 
@@ -24,24 +22,32 @@ const { ConsultaProcedimento } = models;
 const { Text } = Typography;
 
 export default function ConsultaModalProcedimentosTable(): JSX.Element {
-  const procedimentos = useSelector<Store, ConsultaProcedimentoClass[]>(
-    (store: Store) => store.consulta.procedimentos,
+  const { procedimentos, infos } = useSelector<Store, ConsultaStore>(
+    (store: Store) => store.consulta,
   );
   const dispatch = useDispatch();
+
+  const consultaId = infos?.getDataValue('id');
 
   const header = () => (
     <Row gutter={8}>
       <Col span={12}>
-        <Text strong>
+        <div style={{ fontWeight: 'bold', fontSize: 'medium' }}>
           Procedimentos
-        </Text>
+        </div>
       </Col>
       <Col span={12} style={{ textAlign: 'end' }}>
         <Button
           type="link"
           shape="circle"
           style={{ fontSize: '25px' }}
-          onClick={() => dispatch(adicionarProcedimento(ConsultaProcedimento.build()))}
+          onClick={() => {
+            const procedimento = ConsultaProcedimento.build({
+              consultaId,
+            });
+            dispatch(adicionarProcedimento(procedimento));
+            dispatch(mudou());
+          }}
         >
           <Icon type="plus-circle" theme="filled" />
         </Button>
@@ -73,7 +79,7 @@ export default function ConsultaModalProcedimentosTable(): JSX.Element {
     },
     {
       title: '',
-      width: 30,
+      width: 40,
       render: (v: any, d: any, i: number): JSX.Element => (
         <Button
           type="link"
@@ -92,6 +98,10 @@ export default function ConsultaModalProcedimentosTable(): JSX.Element {
 
   return (
     <Table
+      bordered
+      pagination={{
+        simple: true,
+      }}
       title={header}
       columns={columns}
       dataSource={dataSource}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Table } from 'antd';
@@ -15,7 +15,7 @@ import ConsultaModal from './ConsultaModal';
 
 const { Consulta } = models;
 
-export default function PacienteConsultas(): JSX.Element {
+export default function PacienteConsultasTable(): JSX.Element {
   const paciente = useSelector<Store, PacienteStore>((store) => store.paciente);
   const dispatch = useDispatch();
 
@@ -36,15 +36,34 @@ export default function PacienteConsultas(): JSX.Element {
 
   const columns = [
     {
-      title: 'Data',
+      title: 'Data/Hora',
       dataIndex: 'data',
       key: 'data',
-      render: (v: Date): string => moment(v).format('DD/MM/YYYY'),
+      render: (v: Date): string => moment(v).format('DD/MM/YYYY HH:mm'),
     },
     {
       title: 'Observações',
       dataIndex: 'observacoes',
       key: 'observacoes',
+      render: (str: string): JSX.Element => {
+        let strs = str.split('\n');
+        const big = strs.length > 2;
+        if (big) strs = strs.slice(0, 2);
+        return (
+          <div>
+            {strs.map((txt, k) => (
+              <Fragment key={`${k}-span`}> {/* eslint-disable-line */ }
+                <span>{txt}</span>
+                <br />
+              </Fragment>
+            ))}
+            {
+              big
+              && <span>...</span>
+            }
+          </div>
+        );
+      },
     },
     {
       title: 'Responsável',
@@ -52,11 +71,11 @@ export default function PacienteConsultas(): JSX.Element {
       key: 'responsavel',
     },
     {
-      title: '',
+      title: 'Ações',
       dataIndex: 'action',
       key: 'action',
       align: 'center' as 'center',
-      render: (v: number): JSX.Element => <ConsultaModal id={v} />,
+      render: (v: number): JSX.Element => <ConsultaModal id={v} emitter="paciente" />,
     },
   ];
 
@@ -73,8 +92,15 @@ export default function PacienteConsultas(): JSX.Element {
 
   return (
     <Table
+      bordered
       dataSource={dataSource}
       columns={columns}
+      pagination={{
+        simple: true,
+      }}
+      style={{
+        backgroundColor: '#fff',
+      }}
       rowKey="id"
     />
   );

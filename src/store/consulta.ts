@@ -8,6 +8,7 @@ type Handlers = { [key: string]: (state?: ConsultaStore, action?: Action) => Con
 export type ConsultaStore = {
   infos: Consulta | null;
   procedimentos: ConsultaProcedimento[];
+  procedimentosRemovidos: ConsultaProcedimento[];
   diferenteDoDb: boolean;
 };
 
@@ -22,6 +23,7 @@ type Action = {
 const initialState: ConsultaStore = {
   infos: null,
   procedimentos: [],
+  procedimentosRemovidos: [],
   diferenteDoDb: false,
 };
 
@@ -30,8 +32,9 @@ const CARREGAR_PROCEDIMENTOS = 'CARREGAR_PROCEDIMENTOS';
 const ADICIONAR_PROCEDIMENTO = 'ADICIONAR_PROCEDIMENTO';
 const MODIFICAR_PROCEDIMENTO = 'MODIFICAR_PROCEDIMENTO';
 const REMOVER_PROCEDIMENTO = 'REMOVER_PROCEDIMENTO';
-const MUDOU = 'MUDOU';
-const PERSISTIDO = 'PERSISITIDO';
+const LIMPAR_PROCEDIMENTOS_REMOVIDOS = 'LIMPAR_PROCEDIMENTOS_REMOVIDOS';
+const MUDOU_CONSULTA = 'MUDOU_CONSULTA';
+const PERSISTIDO_CONSULTA = 'PERSISTIDO_CONSULTA';
 const LIMPAR_CONSULTA = 'LIMPAR_CONSULTA';
 
 function carregarInfosHandler(state = initialState, action?: Action): ConsultaStore {
@@ -98,12 +101,24 @@ function removerProcedimentoHandler(state = initialState, action?: Action): Cons
   if (!procedimentoIndex && procedimentoIndex !== 0) return { ...state };
 
   const procedimentos = [...state.procedimentos];
-
-  procedimentos.splice(procedimentoIndex, 1);
+  const procedimentosRemovidos = [
+    ...state.procedimentosRemovidos,
+    ...procedimentos.splice(procedimentoIndex, 1),
+  ];
 
   return {
     ...state,
     procedimentos,
+    procedimentosRemovidos,
+  };
+}
+
+function limparProcedimentosRemovidosHandler(state = initialState, action?: Action): ConsultaStore {
+  if (!action) return { ...state };
+
+  return {
+    ...state,
+    procedimentosRemovidos: [],
   };
 }
 
@@ -136,8 +151,9 @@ const reducer: Reducer = (state: ConsultaStore = initialState, action: Action): 
     [ADICIONAR_PROCEDIMENTO]: adicionarProcedimentoHandler,
     [MODIFICAR_PROCEDIMENTO]: modificarProcedimentoHandler,
     [REMOVER_PROCEDIMENTO]: removerProcedimentoHandler,
-    [MUDOU]: mudouHandler,
-    [PERSISTIDO]: persistidoHandler,
+    [LIMPAR_PROCEDIMENTOS_REMOVIDOS]: limparProcedimentosRemovidosHandler,
+    [MUDOU_CONSULTA]: mudouHandler,
+    [PERSISTIDO_CONSULTA]: persistidoHandler,
     [LIMPAR_CONSULTA]: limparConsultaHandler,
   };
 
@@ -185,15 +201,21 @@ export function removerProcedimento(procedimentoIndex: number): Action {
   };
 }
 
+export function limparProcedimentosRemovidos(): Action {
+  return {
+    type: LIMPAR_PROCEDIMENTOS_REMOVIDOS,
+  };
+}
+
 export function mudou(): Action {
   return {
-    type: MUDOU,
+    type: MUDOU_CONSULTA,
   };
 }
 
 export function persitido(): Action {
   return {
-    type: PERSISTIDO,
+    type: PERSISTIDO_CONSULTA,
   };
 }
 
