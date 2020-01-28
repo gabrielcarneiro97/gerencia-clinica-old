@@ -21,6 +21,8 @@ type Action = {
   endereco?: Endereco;
   contato?: Contato;
   consultas?: Consulta[];
+  consulta?: Consulta;
+  consultaIndex?: number;
 };
 
 const initialState: PacienteStore = {
@@ -35,6 +37,9 @@ const CARREGAR_INFOS_PESSOAIS = 'CARREGAR_INFOS_PESSOAIS';
 const CARREGAR_ENDERECO = 'CARREGAR_ENDERECO';
 const CARREGAR_CONTATO = 'CARREGAR_CONTATO';
 const CARREGAR_CONSULTAS = 'CARREGAR_CONSULTAS';
+const ADICIONAR_CONSULTA = 'ADICIONAR_CONSULTA';
+const MODIFICAR_CONSULTA = 'MODIFICAR_CONSULTA';
+const REMOVER_CONSULTA = 'REMOVER_CONSULTA';
 const MUDOU = 'MUDOU';
 const PERSISTIDO = 'PERSISITIDO';
 const LIMPAR_PACIENTE = 'LIMPAR_PACIENTE';
@@ -83,6 +88,57 @@ function carregarConsultasHandler(state = initialState, action?: Action): Pacien
   };
 }
 
+function adicionarConsultaHandler(state = initialState, action?: Action): PacienteStore {
+  if (!action) return { ...state };
+
+  const { consulta } = action;
+
+  if (!consulta) return { ...state };
+
+  const consultas = [...state.consultas];
+
+  consultas.push(consulta);
+
+  return {
+    ...state,
+    consultas,
+  };
+}
+
+function modificarConsultaHandler(state = initialState, action?: Action): PacienteStore {
+  if (!action) return { ...state };
+
+  const { consulta, consultaIndex } = action;
+
+  if (!consulta || (!consultaIndex && consultaIndex !== 0)) return { ...state };
+
+  const consultas = [...state.consultas];
+
+  consultas[consultaIndex] = consulta;
+
+  return {
+    ...state,
+    consultas,
+  };
+}
+
+function removerConsultaHandler(state = initialState, action?: Action): PacienteStore {
+  if (!action) return { ...state };
+
+  const { consultaIndex } = action;
+
+  if (!consultaIndex && consultaIndex !== 0) return { ...state };
+
+  const consultas = [...state.consultas];
+
+  consultas.splice(consultaIndex, 1);
+
+  return {
+    ...state,
+    consultas,
+  };
+}
+
 function mudouHandler(state = initialState, action?: Action): PacienteStore {
   if (!action) return { ...state };
 
@@ -111,6 +167,9 @@ const reducer: Reducer = (state: PacienteStore = initialState, action: Action): 
     [CARREGAR_ENDERECO]: carregarEnderecoHandler,
     [CARREGAR_CONTATO]: carregarContatoHandler,
     [CARREGAR_CONSULTAS]: carregarConsultasHandler,
+    [ADICIONAR_CONSULTA]: adicionarConsultaHandler,
+    [MODIFICAR_CONSULTA]: modificarConsultaHandler,
+    [REMOVER_CONSULTA]: removerConsultaHandler,
     [MUDOU]: mudouHandler,
     [PERSISTIDO]: persistidoHandler,
     [LIMPAR_PACIENTE]: limparPacienteHandler,
@@ -148,6 +207,32 @@ export function carregarConsultas(consultas: Consulta[]): Action {
     consultas,
   };
 }
+
+export function adicionarConsulta(consulta: Consulta): Action {
+  return {
+    type: ADICIONAR_CONSULTA,
+    consulta,
+  };
+}
+
+export function modificarConsulta(
+  consulta: Consulta,
+  consultaIndex: number,
+): Action {
+  return {
+    type: MODIFICAR_CONSULTA,
+    consulta,
+    consultaIndex,
+  };
+}
+
+export function removerConsulta(consultaIndex: number): Action {
+  return {
+    type: REMOVER_CONSULTA,
+    consultaIndex,
+  };
+}
+
 
 export function mudou(): Action {
   return {

@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Modal, Icon } from 'antd';
+import {
+  Button,
+  Modal,
+  Icon,
+  Row,
+  Col,
+} from 'antd';
 
 import ConsultaModalForm from './ConsultaModalForm';
 import ConsultaModalProcedimentosTable from './ConsultaModalProcedimentosTable';
 
-import ConsultaClass from '../db/models/Consulta';
-import ProcedimentoClass from '../db/models/ConsultaProcedimento';
-
 import { models } from '../db/db.service';
 
 import { carregarInfos, carregarProcedimentos, limparConsulta } from '../store/consulta';
+import ConsultaModalSaveButton from './ConsultaModalSaveButton';
 
 const { Consulta, ConsultaProcedimento } = models;
 
@@ -44,6 +48,14 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
   const showModal = (): void => setVisible(true);
   const hideModal = (): void => setVisible(false);
 
+  const footer = (
+    <Row type="flex" justify="end">
+      <Col>
+        <ConsultaModalSaveButton onEnd={hideModal} />
+      </Col>
+    </Row>
+  );
+
   return (
     <>
       <Button
@@ -57,7 +69,7 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
       <Modal
         title="Consulta"
         width={700}
-        footer={null}
+        footer={footer}
         visible={visible}
         onCancel={hideModal}
         destroyOnClose
