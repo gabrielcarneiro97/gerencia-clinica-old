@@ -54,16 +54,26 @@ export default function ConsultaCard(props: propTypes): JSX.Element {
   return (
     <Card
       title={pacienteNome}
-      extra={<ConsultaModal id={id} saveEnd={getData} />}
+      extra={(
+        <ConsultaModal
+          id={id}
+          saveEnd={getData}
+        />
+      )}
+      style={{
+        fontSize: 'smaller',
+      }}
+      size="small"
     >
       <p>
         Horário:
         &nbsp;
         {dataHora ? dataHora.format('HH:mm') : ''}
         &nbsp;
+        &nbsp;
         {
           dataHora && dataHora.isBefore(moment().add(-5, 'm')) && status === 1
-          && <Tag color="red">ATRASADO</Tag>
+          && <Tag color="red" style={{ fontSize: 'x-small' }}>ATRASADO</Tag>
         }
       </p>
       <p>
