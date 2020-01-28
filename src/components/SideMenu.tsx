@@ -19,10 +19,10 @@ export default function SideMenu(): JSX.Element {
           Pacientes
         </Link>
       </Menu.Item>
-      <Menu.Item key="/teste2">
-        <Link to="/teste2">
-          <Icon type="medicine-box" />
-          Consultas
+      <Menu.Item key="/agenda">
+        <Link to="/agenda">
+          <Icon type="calendar" />
+          Agenda
         </Link>
       </Menu.Item>
     </Menu>

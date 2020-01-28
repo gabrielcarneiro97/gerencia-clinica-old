@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   Modal,
@@ -14,25 +14,45 @@ import ConsultaModalProcedimentosTable from './ConsultaModalProcedimentosTable';
 import { models } from '../db/db.service';
 
 import { carregarInfos, carregarProcedimentos, limparConsulta } from '../store/consulta';
+import { Store } from '../store/store';
 import ConsultaModalSaveButton from './ConsultaModalSaveButton';
 
 const { Consulta, ConsultaProcedimento } = models;
 
 type propTypes = {
-  id: number;
-  buttonSize?: string;
+  id?: number;
+  buttonConfig?: {
+    size?: string;
+    icon?: string;
+    filled?: boolean;
+  };
   emitter?: string;
+  visible?: boolean;
 }
 
 export default function ConsultaModal(props: propTypes): JSX.Element {
-  const { buttonSize = '20px', id, emitter } = props;
+  const {
+    buttonConfig = {
+      size: '20px',
+      icon: 'info-circle',
+      filled: false,
+    }, id, emitter, visible: visibleProp,
+  } = props;
 
   const dispatch = useDispatch();
+  const { paciente } = useSelector<Store, Store>((store) => store);
+  const pacienteId = paciente.infosPessoais?.getDataValue('id');
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(visibleProp || false);
 
   useEffect(() => {
-    if (visible) {
+    if (visible && !id && pacienteId) {
+      const consulta = Consulta.build({
+        pacienteId,
+        status: 1,
+      });
+      dispatch(carregarInfos(consulta));
+    } else if (visible && id) {
       ConsultaProcedimento.findAll({
         where: {
           consultaId: id,
@@ -59,14 +79,16 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
 
   return (
     <>
+
       <Button
         shape="circle"
         type="link"
-        style={{ fontSize: buttonSize }}
+        style={{ fontSize: buttonConfig.size }}
         onClick={showModal}
       >
-        <Icon type="info-circle" />
+        <Icon type={buttonConfig.icon} theme={buttonConfig.filled ? 'filled' : 'outlined'} />
       </Button>
+
       <Modal
         title={(
           <div style={{ fontSize: 'large' }}>

@@ -10,6 +10,7 @@ import {
   Row,
   Col,
   DatePicker,
+  Select,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
@@ -17,6 +18,7 @@ import { Store } from '../store/store';
 import ConsultaClass from '../db/models/Consulta';
 import { ConsultaStore, carregarInfos, mudou } from '../store/consulta';
 
+const { Option } = Select;
 const { TextArea } = Input;
 const { Item } = Form;
 
@@ -38,10 +40,24 @@ function ConsultaModalForm(props: FormComponentProps): JSX.Element {
             )}
           </Item>
         </Col>
-        <Col span={16}>
+        <Col span={8}>
           <Item label="Responsável">
             {getFieldDecorator('responsavel')(
               <Input placeholder="Responsável" />,
+            )}
+          </Item>
+        </Col>
+        <Col span={8}>
+          <Item label="Status">
+            {getFieldDecorator('status')(
+              <Select>
+                <Option value={1}>Agendado</Option>
+                <Option value={2}>Em Espera</Option>
+                <Option value={3}>Em Atendimento</Option>
+                <Option value={4}>Atendimento Concluído</Option>
+                <Option value={5}>Não Compareceu</Option>
+
+              </Select>,
             )}
           </Item>
         </Col>
@@ -114,6 +130,7 @@ export default connect(
       ...createField('data'),
       ...createField('observacoes'),
       ...createField('responsavel'),
+      ...createField('status'),
     };
   },
 })(ConsultaModalForm));

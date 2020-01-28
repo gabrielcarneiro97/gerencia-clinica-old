@@ -21,6 +21,22 @@ export async function dbInit(): Promise<boolean> {
   }
 }
 
+export async function excluirConsulta(consultaId: number): Promise<void> {
+  const consulta = await Consulta.findByPk(consultaId);
+
+  if (consulta) {
+    const procedimentos = await ConsultaProcedimento.findAll({
+      where: {
+        consultaId,
+      },
+    });
+
+    await Promise.all(procedimentos.map(async (p) => p.destroy()));
+
+    await consulta.destroy();
+  }
+}
+
 export const models = {
   Paciente,
   Contato,
