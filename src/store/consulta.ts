@@ -15,6 +15,8 @@ type Action = {
   type: string;
   consulta?: Consulta | null;
   procedimentos?: ConsultaProcedimento[];
+  procedimento?: ConsultaProcedimento;
+  procedimentoIndex?: number;
 };
 
 const initialState: ConsultaStore = {
@@ -25,6 +27,9 @@ const initialState: ConsultaStore = {
 
 const CARREGAR_INFOS = 'CARREGAR_INFOS';
 const CARREGAR_PROCEDIMENTOS = 'CARREGAR_PROCEDIMENTOS';
+const ADICIONAR_PROCEDIMENTO = 'ADICIONAR_PROCEDIMENTO';
+const MODIFICAR_PROCEDIMENTO = 'MODIFICAR_PROCEDIMENTO';
+const REMOVER_PROCEDIMENTO = 'REMOVER_PROCEDIMENTO';
 const MUDOU = 'MUDOU';
 const PERSISTIDO = 'PERSISITIDO';
 const LIMPAR_CONSULTA = 'LIMPAR_CONSULTA';
@@ -44,6 +49,57 @@ function carregarProcedimentosHandler(state = initialState, action?: Action): Co
   if (!action) return { ...state };
 
   const { procedimentos = [] } = action;
+
+  return {
+    ...state,
+    procedimentos,
+  };
+}
+
+function adicionarProcedimentoHandler(state = initialState, action?: Action): ConsultaStore {
+  if (!action) return { ...state };
+
+  const { procedimento } = action;
+
+  if (!procedimento) return { ...state };
+
+  const procedimentos = [...state.procedimentos];
+
+  procedimentos.push(procedimento);
+
+  return {
+    ...state,
+    procedimentos,
+  };
+}
+
+function modificarProcedimentoHandler(state = initialState, action?: Action): ConsultaStore {
+  if (!action) return { ...state };
+
+  const { procedimento, procedimentoIndex } = action;
+
+  if (!procedimento || (!procedimentoIndex && procedimentoIndex !== 0)) return { ...state };
+
+  const procedimentos = [...state.procedimentos];
+
+  procedimentos[procedimentoIndex] = procedimento;
+
+  return {
+    ...state,
+    procedimentos,
+  };
+}
+
+function removerProcedimentoHandler(state = initialState, action?: Action): ConsultaStore {
+  if (!action) return { ...state };
+
+  const { procedimentoIndex } = action;
+
+  if (!procedimentoIndex && procedimentoIndex !== 0) return { ...state };
+
+  const procedimentos = [...state.procedimentos];
+
+  procedimentos.splice(procedimentoIndex, 1);
 
   return {
     ...state,
@@ -77,14 +133,17 @@ const reducer: Reducer = (state: ConsultaStore = initialState, action: Action): 
   const handlers: Handlers = {
     [CARREGAR_INFOS]: carregarInfosHandler,
     [CARREGAR_PROCEDIMENTOS]: carregarProcedimentosHandler,
+    [ADICIONAR_PROCEDIMENTO]: adicionarProcedimentoHandler,
+    [MODIFICAR_PROCEDIMENTO]: modificarProcedimentoHandler,
+    [REMOVER_PROCEDIMENTO]: removerProcedimentoHandler,
     [MUDOU]: mudouHandler,
     [PERSISTIDO]: persistidoHandler,
     [LIMPAR_CONSULTA]: limparConsultaHandler,
   };
 
-  const newState = (handlers[action.type] || ((): ConsultaStore => ({ ...state })))(state, action);
+  const undefinedHandler = (): ConsultaStore => ({ ...state });
 
-  return newState;
+  return (handlers[action.type] || undefinedHandler)(state, action);
 };
 
 export function carregarInfos(consulta: Consulta | null): Action {
@@ -98,6 +157,31 @@ export function carregarProcedimentos(procedimentos: ConsultaProcedimento[]): Ac
   return {
     type: CARREGAR_PROCEDIMENTOS,
     procedimentos,
+  };
+}
+
+export function adicionarProcedimento(procedimento: ConsultaProcedimento): Action {
+  return {
+    type: ADICIONAR_PROCEDIMENTO,
+    procedimento,
+  };
+}
+
+export function modificarProcedimento(
+  procedimento: ConsultaProcedimento,
+  procedimentoIndex: number,
+): Action {
+  return {
+    type: MODIFICAR_PROCEDIMENTO,
+    procedimento,
+    procedimentoIndex,
+  };
+}
+
+export function removerProcedimento(procedimentoIndex: number): Action {
+  return {
+    type: REMOVER_PROCEDIMENTO,
+    procedimentoIndex,
   };
 }
 

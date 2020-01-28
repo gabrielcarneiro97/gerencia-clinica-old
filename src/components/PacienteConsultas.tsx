@@ -71,8 +71,6 @@ export default function PacienteConsultas(): JSX.Element {
     },
   ) : [];
 
-  console.log(dataSource);
-
   return (
     <Table
       dataSource={dataSource}
