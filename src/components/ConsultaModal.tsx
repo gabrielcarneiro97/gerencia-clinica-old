@@ -28,6 +28,7 @@ type propTypes = {
   };
   emitter?: string;
   visible?: boolean;
+  saveEnd?: Function;
 }
 
 export default function ConsultaModal(props: propTypes): JSX.Element {
@@ -36,7 +37,7 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
       size: '20px',
       icon: 'info-circle',
       filled: false,
-    }, id, emitter, visible: visibleProp,
+    }, id, emitter, visible: visibleProp, saveEnd,
   } = props;
 
   const dispatch = useDispatch();
@@ -72,7 +73,13 @@ export default function ConsultaModal(props: propTypes): JSX.Element {
   const footer = (
     <Row type="flex" justify="end">
       <Col>
-        <ConsultaModalSaveButton onEnd={hideModal} emitter={emitter} />
+        <ConsultaModalSaveButton
+          onEnd={() => {
+            hideModal();
+            if (saveEnd) saveEnd();
+          }}
+          emitter={emitter}
+        />
       </Col>
     </Row>
   );

@@ -4,16 +4,13 @@ import {
 } from 'react-router-dom';
 
 import PacientesMain from './PacientesMain';
-
-
-const Teste2 = () => <div>Teste2</div>;
-
+import AgendaMain from './AgendaMain';
 
 export default function Router(): JSX.Element {
   return (
     <Switch>
       <Route exact path="/pacientes" component={PacientesMain} />
-      <Route exact path="/teste2" component={Teste2} />
+      <Route exact path="/agenda" component={AgendaMain} />
 
       <Redirect from="/" to="/pacientes" />
     </Switch>

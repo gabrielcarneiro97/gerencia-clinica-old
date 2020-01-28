@@ -18,6 +18,20 @@ export default class Paciente extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
+  public getIniciais(): string {
+    const nome = this.getDataValue('nome');
+
+    if (!nome) return '';
+
+    const nomes = nome.split(' ');
+
+    return nomes.reduce((acc, crr, i) => {
+      if (i === 0) return crr;
+      if (crr.length <= 2) return acc;
+      return `${acc} ${crr[0].toUpperCase()}.`;
+    }, '');
+  }
+
   public async getEndereco(): Promise<Endereco> {
     const enderecoId = this.getDataValue('enderecoId');
     if (!enderecoId) return Endereco.build();
