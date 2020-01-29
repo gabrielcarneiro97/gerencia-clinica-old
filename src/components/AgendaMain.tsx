@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Row, Col } from 'antd';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
-import ConsultaCard from './ConsultaCard';
 import AgendaBoardDroppable from './AgendaBoardDroppable';
 
 const reorder = (list: any, startIndex: any, endIndex: any): any => {
